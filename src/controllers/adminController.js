@@ -45,7 +45,7 @@ exports.adminLogin = async (req, res) => {
             }, "ajit07", { expiresIn: '1h' })
 
             let studentsRecord = await studentModel.find({ adminId: verifyAdmin._id, isDeleted: false })
-            if (studentsRecord === 0) { studentsRecord = "No student record found" }
+            //if (studentsRecord === 0) { studentsRecord.push("No student record found") }
             return res.status(200).send({ status: true, message: "Login successfull", token: token, data: studentsRecord })
         } else {
             return res.status(400).send({ status: false, message: "Please register first" })

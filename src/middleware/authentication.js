@@ -12,8 +12,8 @@ exports.authenticate = async (req, res, next) => {
                 let message = error.message === "jwt expired" ? "Token expired" : "Token invalid"
                 return res.status(401).send({ status: false, message: message })
             }
-            req.headers = decodedToken
-            //req["adminId"]=decodedToken.adminId
+            //req.headers = decodedToken
+            req["adminId"]=decodedToken.adminId
             return next()
         })
 

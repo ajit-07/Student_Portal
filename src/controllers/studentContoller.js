@@ -1,4 +1,4 @@
-const { isObjectIdOrHexString, default: mongoose } = require('mongoose')
+const mongoose  = require('mongoose')
 const studentModel = require('../models/studentModel.js')
 const ObjectId = mongoose.Types.ObjectId
 
@@ -61,12 +61,13 @@ exports.editStudent = async (req, res) => {
         let student = await studentModel.findOne({ _id: studentId, isDeleted: false })
         if (student) {
             let id = student.adminId
-            if (req.adminId !== id) return res.status(403).send({ status: false, message: "You are not authorized to update this student" })
+            if (req.adminId != id) return res.status(403).send({ status: false, message: "You are not authorized to update this student" })
         } else {
             return res.staus(404).send({ staus: false, message: "No student found with this student Id or is already deleted" })
         }
         let input = req.body
         let { name, marks, subject } = input
+        if (Object.keys(input).length == 0) return res.status(400).send({ status: false, message: "Please enter atleast one detail to edit student" })
         let update = {}
         if (name) {
             if (name == student.name) return res.status(400).send({ status: false, message: "Please enter a new name to update" })
@@ -99,7 +100,7 @@ exports.deleteStudent = async (req, res) => {
         let student = await studentModel.findOne({ _id: studentId, isDeleted: false })
         if (student) {
             let id = student.adminId
-            if (req.adminId !== id) return res.status(403).send({ status: false, message: "You are not authorized to delete this student" })
+            if (req.adminId != id) return res.status(403).send({ status: false, message: "You are not authorized to delete this student" })
         } else {
             return res.staus(404).send({ staus: false, message: "No student found with this student Id or is already deleted" })
         }
